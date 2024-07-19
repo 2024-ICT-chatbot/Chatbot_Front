@@ -1,0 +1,121 @@
+.chatbot-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f0f0f0;
+  overflow: hidden; /* 전체 페이지의 오버플로우를 숨깁니다. */
+}
+
+.chatbot {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 10px;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  height: 90vh;
+}
+
+.content-container {
+  flex-grow: 1;
+  overflow-y: auto; /* 전체 콘텐츠 컨테이너의 오버플로우를 스크롤로 처리합니다. */
+}
+
+.welcome-box {
+  border: 1px solid #007bff;
+  border-radius: 10px;
+  padding: 20px;
+  background-color: #e6f7ff;
+  margin-bottom: 20px;
+  flex-shrink: 0;
+}
+
+.welcome-message {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.bot-image {
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+}
+
+.bot-name {
+  font-weight: bold;
+  font-size: 12px;
+  /* 글자 크기 및 스타일 추가 */
+  color: #333;
+}
+
+.bot-message {
+  margin-top: 5px;
+}
+
+.buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.buttons button {
+  padding: 10px;
+  flex: 1 1 calc(50% - 10px);  /* 두 개의 버튼이 한 줄에 들어가도록 설정 */
+  border: 1px solid #007bff;
+  border-radius: 5px;
+  background-color: white;
+  color: #007bff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 16px;
+  font-weight: bold;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.buttons button:hover {
+  background-color: #007bff;
+  color: white;
+}
+
+.messages {
+  flex-grow: 1;
+  margin-bottom: 10px;
+  padding-right: 10px; /* 스크롤바가 메시지 텍스트를 가리지 않도록 패딩 추가 */
+}
+
+.input-area {
+  display: flex;
+  border-top: 1px solid #ccc;
+  padding: 10px 0;
+  flex-shrink: 0;
+}
+
+.chat-input {
+  flex-grow: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-right: 10px;
+}
+
+.send-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+}
+
+.send-button:hover {
+  background-color: #0056b3;
+}
