@@ -1,48 +1,77 @@
-.chat-message {
-    display: flex;
-    align-items: flex-start;
-    margin: 10px 0;
-}
-
-.chat-message.user {
-    justify-content: flex-end;
-}
-
-.chat-message.bot {
-    justify-content: flex-start;
-}
-
-.message-bubble {
-    padding: 10px;
-    border-radius: 10px;
-    max-width: 70%;
-    word-wrap: break-word; /* 텍스트가 넘칠 경우 자동으로 줄 바꿈 */
-    white-space: pre-wrap; /* 공백과 줄 바꿈을 유지 */
-}
-
-.message-bubble.user {
-    background-color: #d1c4e9;
-    text-align: right;
-}
-
-.message-bubble.bot {
-    background-color: #e0f7fa;
-    text-align: left;
-}
-
-.bot-info {
+.bot-header {
     display: flex;
     align-items: center;
+    margin-bottom: 10px;
 }
 
 .bot-image {
-    width: 40px;
-    height: 40px;
-    margin-right: 10px;  /* "항만공사챗봇" 문구와의 간격 조절 */
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
 }
 
 .bot-name {
     font-weight: bold;
-    white-space: nowrap; /* 텍스트를 한 줄로 유지 */
-    font-size: 10px;  /* 글자 크기 조절 */
+    font-size: 1.2em;
+}
+
+.welcome-box {
+    background-color: #f0f8ff;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 10px;
+    text-align: left; /* 왼쪽 정렬 */
+}
+
+.welcome-message {
+    margin-bottom: 10px;
+    line-height: 1.5; /* 줄 간격 조정 */
+    text-align: left; /* 왼쪽 정렬 */
+}
+
+.welcome-message-line {
+    text-align: left; /* 왼쪽 정렬 */
+}
+
+.buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center; /* 버튼 가운데 정렬 */
+}
+
+button {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #ddd;
+}
+
+.chat-message {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.message-bubble {
+    max-width: 60%;
+    padding: 10px;
+    border-radius: 10px;
+    margin-left: 10px;
+}
+
+.message-bubble.user {
+    background-color: #d3d3ff;
+    align-self: flex-end;
+    margin-left: auto;
+}
+
+.message-bubble.bot {
+    background-color: #e0f7fa;
+    align-self: flex-start;
 }
