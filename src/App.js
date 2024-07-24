@@ -3,9 +3,10 @@ import ChatMessage from './ChatMessage';
 import './App.css';
 
 const App = () => {
-    const [messages, setMessages] = useState([]);
-    const [input, setInput] = useState('');
+    const [messages, setMessages] = useState([]); // 메시지 상태 관리
+    const [input, setInput] = useState(''); // 입력 필드 상태 관리
 
+    // 컴포넌트가 마운트될 때 환영 메시지 설정
     useEffect(() => {
         const welcomeMessage = {
             type: 'bot',
@@ -15,6 +16,7 @@ const App = () => {
         setMessages([welcomeMessage]);
     }, []);
 
+    // 버튼 클릭 시 정보 메시지 추가
     const handleButtonClick = (infoType) => {
         let info = '';
         switch (infoType) {
@@ -38,20 +40,22 @@ const App = () => {
         }
 
         const newMessages = [...messages, { type: 'bot', text: info }];
-        setMessages(newMessages);
+        setMessages(newMessages); // 새 메시지를 상태에 추가
     };
 
+    // 메시지 전송 핸들러
     const handleSend = async () => {
         if (input.trim() !== '') {
             const newMessages = [...messages, { type: 'user', text: input }];
-            setMessages(newMessages);
-            setInput('');
+            setMessages(newMessages); // 사용자 메시지 추가
+            setInput(''); // 입력 필드 초기화
 
-            const botResponse = await getBotResponse(input);
+            const botResponse = await getBotResponse(input); // 봇 응답 가져오기
             setMessages((prevMessages) => [...prevMessages, { type: 'bot', text: botResponse }]);
         }
     };
 
+    // FastAPI 서버에서 봇 응답을 가져오는 함수
     const getBotResponse = async (userInput) => {
         try {
             const response = await fetch('http://localhost:8000/chat', {
@@ -59,29 +63,31 @@ const App = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ message: userInput }),
+                body: JSON.stringify({ message: userInput }), // 사용자 입력 전송
             });
 
             const data = await response.json();
             if (data.error) {
-                return `Error: ${data.error}`;
+                return `Error: ${data.error}`; // 오류 메시지 반환
             }
-            return data.response;
+            return data.response; // 봇 응답 반환
         } catch (error) {
             console.error('Error fetching response from FastAPI server:', error);
-            return '응답을 생성하는 중 오류가 발생했습니다. 다시 시도해주세요.';
+            return '응답을 생성하는 중 오류가 발생했습니다. 다시 시도해주세요.'; // 예외 처리
         }
     };
 
+    // Enter 키를 눌렀을 때 메시지를 전송하는 핸들러
     const handleKeyPress = (e) => {
         if (e.key === 'Enter') {
-            handleSend();
+            handleSend(); // Enter 키 입력 시 메시지 전송
         }
     };
 
     return (
         <div className="chatbot-container">
             <div className="chatbot">
+                {/* 채팅 메시지 표시 */}
                 <div className="content-container">
                     <div className="messages">
                         {messages.map((msg, index) => (
@@ -89,14 +95,15 @@ const App = () => {
                         ))}
                     </div>
                 </div>
+                {/* 메시지 입력 영역 */}
                 <div className="input-area">
                     <input
                         type="text"
                         placeholder="내용을 입력하세요"
                         className="chat-input"
                         value={input}
-                        onChange={(e) => setInput(e.target.value)}
-                        onKeyPress={handleKeyPress}
+                        onChange={(e) => setInput(e.target.value)} // 입력 필드 값 업데이트
+                        onKeyPress={handleKeyPress} // Enter 키 입력 시 메시지 전송
                     />
                     <button onClick={handleSend} className="send-button">전송</button>
                 </div>

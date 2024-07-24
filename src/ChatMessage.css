@@ -24,13 +24,22 @@
     text-align: left; /* 왼쪽 정렬 */
 }
 
+.spacing {
+    height: 10px; /* 메시지와 버튼 사이의 간격 설정 */
+}
+
 .welcome-message {
     margin-bottom: 10px;
     line-height: 1.5; /* 줄 간격 조정 */
     text-align: left; /* 왼쪽 정렬 */
+    font-size: 1em; /* 같은 폰트 크기 */
+    word-break: break-word; /* 단어가 길 경우 줄바꿈 */
 }
 
-.welcome-message-line {
+.additional-info {
+    font-size: 1em; /* 같은 폰트 크기 */
+    color: #555;
+    margin-top: 5px;
     text-align: left; /* 왼쪽 정렬 */
 }
 
@@ -42,7 +51,9 @@
 }
 
 button {
-    padding: 10px;
+    height: 30px; /* 모든 버튼 높이를 동일하게 설정 */
+    font-size: 12px; /* 버튼 텍스트 크기 조정 */
+    padding: 5px 7px; /* 버튼 크기 줄임 */
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -59,19 +70,31 @@ button:hover {
 }
 
 .message-bubble {
-    max-width: 60%;
-    padding: 10px;
+    max-width: 60%; /* 최대 너비 */
+    min-width: 0%; /* 최소 너비 */
+    width: auto; /* 필요에 따라 너비 조정 */
+    min-height: 30px; /* 최소 높이 설정 */
+    padding: 3%;
     border-radius: 10px;
     margin-left: 10px;
+    word-break: break-word; /* 단어가 길 경우 줄바꿈 */
+    overflow-y: auto; /* 내용이 많을 경우 스크롤 가능 */
 }
 
+
+/* 사용자 메시지 스타일 */
 .message-bubble.user {
-    background-color: #d3d3ff;
+    background-color: #d3d3ff; /* 보라색 배경 */
     align-self: flex-end;
     margin-left: auto;
+    padding: 5px 10px; /* 기존 값에서 위아래 padding 줄이기 */
+    border-radius: 10px;
 }
 
+/* 챗봇 메시지 스타일 */
 .message-bubble.bot {
     background-color: #e0f7fa;
     align-self: flex-start;
+    padding: 10px; /* 필요에 따라 padding 값 조정 */
 }
+
