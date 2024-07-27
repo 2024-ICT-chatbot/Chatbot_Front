@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import './ChatMessage.css';
-import botCharacter from './bot_character.png';
+import botCharacter from '../assets/images/bot_character.png';
+
 
 const ChatMessage = ({ message, handleButtonClick }) => {
     const isUser = message.type === 'user';
