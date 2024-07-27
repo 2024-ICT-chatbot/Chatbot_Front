@@ -1,3 +1,7 @@
+#프로젝트 아키텍처
+-----
+
+```
 project-root
 ├── src
 │   ├── assets
@@ -20,3 +24,4 @@ project-root
 │   ├── index.js
 │   ├── index.css
 └── ...
+```
