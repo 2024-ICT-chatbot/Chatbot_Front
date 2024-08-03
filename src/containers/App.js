@@ -1,7 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import ChatMessage from '../components/ChatMessage';
 import '../containers/App.css';
-import { getBotResponse } from '../services/api';
+import axios from 'axios';
+
+// getBotResponse 함수 정의
+export const getBotResponse = async (message) => {
+  try {
+    const response = await axios.post('http://localhost:8000/chat', { message });
+    return response.data.response;
+  } catch (error) {
+    console.error('Error fetching bot response:', error);
+    return '오류가 발생했습니다. 다시 시도해주세요.';
+  }
+};
 
 const App = () => {
   const [messages, setMessages] = useState([]);
