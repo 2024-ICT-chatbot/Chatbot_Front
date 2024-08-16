@@ -18,15 +18,18 @@ const App = () => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
 
+  // 페이지 로드 시 웰컴 메시지 추가
   useEffect(() => {
     const welcomeMessage = {
       type: 'bot',
       text: ['안녕하세요? 항만공사 챗봇입니다.', '무엇을 도와드릴까요?'],
-      isWelcome: true
+      isWelcome: true,
+      timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }),
     };
     setMessages([welcomeMessage]);
   }, []);
 
+  // 버튼 클릭 시 발생하는 이벤트 처리
   const handleButtonClick = (infoType) => {
     let info = '';
     switch (infoType) {
@@ -49,21 +52,32 @@ const App = () => {
         info = '';
     }
 
-    const newMessages = [...messages, { type: 'bot', text: info }];
+    const newMessages = [...messages, { type: 'bot', text: info, timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }) }];
     setMessages(newMessages);
   };
 
+  // 메시지 전송 처리
   const handleSend = async () => {
     if (input.trim() !== '') {
-      const newMessages = [...messages, { type: 'user', text: input }];
-      setMessages(newMessages);
+      const userMessage = {
+        type: 'user',
+        text: input,
+        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }),
+      };
+      setMessages([...messages, userMessage]);
       setInput('');
 
       const botResponse = await getBotResponse(input);
-      setMessages((prevMessages) => [...prevMessages, { type: 'bot', text: botResponse }]);
+      const botMessage = {
+        type: 'bot',
+        text: botResponse,
+        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }),
+      };
+      setMessages((prevMessages) => [...prevMessages, botMessage]);
     }
   };
 
+  // Enter 키 입력 시 메시지 전송
   const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
       handleSend();
@@ -73,6 +87,11 @@ const App = () => {
   return (
     <div className="chatbot-container">
       <div className="chatbot">
+        {/* 헤더를 최상단에 고정 */}
+        <div className="header-text-container">
+          <p className="header-text">항만공사 챗봇</p>
+        </div>
+        
         <div className="content-container">
           <div className="messages">
             {messages.map((msg, index) => (
