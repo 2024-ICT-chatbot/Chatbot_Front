@@ -15,13 +15,17 @@
     font-size: 1.2em;
 }
 
+.chat-message-container {
+    background-color: #fff; /* 나머지 흰 바탕 영역 */
+    padding: 10px; /* 기본 여백 추가 */
+    margin-top: 2px; /* 배경색 영역 아래로 챗봇 메시지들이 오도록 여유 공간 추가 */
+}
+
 .welcome-box {
-    background-color: #f0f8ff;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    padding: 10px;
-    margin-bottom: 10px;
-    text-align: left; /* 왼쪽 정렬 */
+    border: none; /* 배경에서 제거할 경우 테두리 제거 */
+    padding: 0;
+    margin-bottom: 0; /* 버튼과의 간격을 없앰 */
+    text-align: left;
 }
 
 .spacing {
@@ -47,7 +51,30 @@
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
-    justify-content: center; /* 버튼 가운데 정렬 */
+    justify-content: center;
+    margin-top: 10px; /* 메시지 박스와 버튼 사이 간격 */
+}
+
+.buttons button {
+    width: 50px; /* 정사각형 버튼을 위해 너비 설정 */
+    height: 50px; /* 정사각형 버튼을 위해 높이 설정 */
+    font-size: 12px;
+    border: 1px solid #007bff;
+    border-radius: 5px;
+    background-color: white;
+    color: #007bff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-weight: bold;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.buttons button:hover {
+    background-color: #007bff;
+    color: white;
 }
 
 button {
@@ -65,36 +92,140 @@ button:hover {
 
 .chat-message {
     display: flex;
-    align-items: center;
-    margin-bottom: 10px;
+    flex-direction: column; /* 세로 방향으로 정렬 */
+    align-items: flex-start;
+    margin-bottom: 15px;
+}
+
+.message-container {
+    display: flex;
+    align-items: center; /* 텍스트와 시간을 가로로 정렬 */
+    align-items: flex-end;
+    width: 100%;
+}
+
+.message-container.user {
+    justify-content: flex-end; /* 사용자 메시지는 우측 정렬 */
 }
 
 .message-bubble {
-    max-width: 60%; /* 최대 너비 */
-    min-width: 0%; /* 최소 너비 */
-    width: auto; /* 필요에 따라 너비 조정 */
-    min-height: 30px; /* 최소 높이 설정 */
-    padding: 3%;
-    border-radius: 10px;
-    margin-left: 10px;
-    word-break: break-word; /* 단어가 길 경우 줄바꿈 */
-    overflow-y: auto; /* 내용이 많을 경우 스크롤 가능 */
+    max-width: 60%;
+    padding: 10px;
+    border-radius: 15px;
+    font-size: 14px;
+    line-height: 1.4;
+    background-color: #e0f7fa; /* 챗봇 메시지 배경색 */
+}
+
+.message-container.user .message-bubble {
+    background-color: #f1f1f1; /* 사용자 메시지 배경색 */
+    margin-right: 0;
+}
+
+.timestamp {
+    font-size: 10px; /* 시간 표시의 글자 크기 줄임 */
+    color: #888; /* 시간 표시의 글자 색상 */
+}
+
+.message-container.user .timestamp {
+    order: -1; /* 시간 표시를 메시지 왼쪽으로 이동 */
+    margin-right: 1px;
+}
+
+.message-container.bot .timestamp {
+    margin-left: 1px; /* 시간과 메시지 사이 간격 추가 */
+}
+
+.buttons-outside {
+    display: flex;
+    flex-direction: column;
+    gap: 5px; /* 각 행 사이의 간격을 매우 작게 설정 */
+    justify-content: center;
+    align-items: center; /* 버튼들이 중앙에 정렬되도록 설정 */
+    margin-top: 15px; /* 메시지 박스와 버튼 사이 간격 설정 */
+}
+
+.buttons-row {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 350px; /* 버튼 줄의 최대 너비 설정 */
+}
+
+.buttons-row:first-child {
+    margin-bottom: 5px; /* 첫 번째 줄과 두 번째 줄 사이의 간격을 매우 작게 설정 */
+}
+
+.wide-button {
+    flex: 1;
+    padding: 30px 0; /* 버튼의 세로 길이 설정 */
+    font-size: 12px; /* 폰트 크기 설정을 줄임 */
+    border: 1px solid #007bff;
+    border-radius: 10px; /* 버튼 모서리를 둥글게 설정 */
+    background-color: white; /* 원래 배경색 */
+    color: #007bff;
+    cursor: pointer;
+    text-align: center;
+    font-weight: bold;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 버튼의 그림자 설정 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 5px; /* 버튼 사이의 간격을 매우 작게 설정 */
+    white-space: nowrap; /* 텍스트가 가로로 한 줄로 나오도록 설정 */
+    height: 60px; /* 일정한 높이 설정 */
+}
+
+.buttons-row button {
+    flex: 1;
+    padding: 0; /* 버튼 내부의 여백 제거 */
+    font-size: 12px; /* 폰트 크기 설정을 줄임 */
+    border: 1px solid #007bff;
+    border-radius: 10px; /* 버튼 모서리를 둥글게 설정 */
+    background-color: white; /* 원래 배경색 */
+    color: #007bff;
+    cursor: pointer;
+    text-align: center;
+    font-weight: bold;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 버튼의 그림자 설정 */
+    margin: 3px; /* 버튼들 사이의 간격을 설정 */
+    display: flex;
+    align-items: center;
+    justify-content: center; /* 버튼 내부의 텍스트를 정 가운데로 설정 */
+    white-space: nowrap; /* 텍스트가 가로로 한 줄로 나오도록 설정 */
+    height: 95px; /* 일정한 높이 설정 */
+    width: 95px; /* 버튼의 일정한 너비 설정 */
+}
+
+.buttons-row button:hover,
+.wide-button:hover {
+    background-color: #007bff;
+    color: white;
 }
 
 
-/* 사용자 메시지 스타일 */
-.message-bubble.user {
-    background-color: #d3d3ff; /* 보라색 배경 */
-    align-self: flex-end;
-    margin-left: auto;
-    padding: 5px 10px; /* 기존 값에서 위아래 padding 줄이기 */
-    border-radius: 10px;
+.additional-options .option-button {
+    width: 232px; /* 버튼이 전체 가로 길이를 차지하도록 설정 */
+    max-width: 300px; /* 버튼의 최대 너비를 적절히 설정 */
+    height: 60px; /* 버튼의 높이를 콘텐츠에 맞게 설정 */
+    padding: 15px; /* 버튼 내 텍스트의 여백 */
+    background-color: white; /* 버튼의 배경색을 흰색으로 설정 */
+    border: 1px solid #ccc; /* 버튼 테두리를 설정 */
+    border-radius: 8px; /* 모서리를 부드럽게 둥글게 설정 */
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); /* 가벼운 그림자 추가 */
+    color: #000; /* 텍스트 색상을 검정으로 설정 */
+    font-size: 12px; /* 텍스트 크기 */
+    font-weight: normal; /* 텍스트 굵기를 일반으로 설정 */
+    text-align: center; /* 텍스트를 가운데 정렬 */
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    word-wrap: break-word;
 }
 
-/* 챗봇 메시지 스타일 */
-.message-bubble.bot {
-    background-color: #e0f7fa;
-    align-self: flex-start;
-    padding: 10px; /* 필요에 따라 padding 값 조정 */
+.additional-options .option-button:hover {
+    background-color: #f0f0f0; /* 호버 시 버튼 배경색 변경 */
 }
+
 

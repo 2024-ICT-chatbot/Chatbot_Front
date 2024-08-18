@@ -11,19 +11,43 @@
   width: 100%;
   max-width: 400px;
   margin: 0 auto;
-  border: 1px solid #ccc;
+  border: 1px solid #cccccc;
   border-radius: 10px;
-  padding: 10px;
-  background-color: #fff;
+  padding: 0px;
+  background-color: #ffffff;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
   height: 90vh;
+  .header-text-container {
+    width: calc(100%); /* 부모의 너비에 추가 여백을 더하여 전체 화면을 덮도록 설정 */
+    text-align: left; /* 텍스트를 좌측 정렬 */
+    padding: 5px 10px; /* 상하 및 좌우 간격 추가 */
+    background-color: #87b3d5b8; /* 배경색 설정 */
+    position: relative; /* 요소를 상대적으로 배치 */
+    
+    box-sizing: border-box; /* 패딩과 보더를 너비에 포함 */
+  }
+  .parent-container {
+    
+    margin-left: 0;
+    padding-left: 0;
+  }
+  
+  
+  .header-text {
+    font-size: 14px; /* 텍스트 크기 설정 */
+    font-weight: bold; /* 텍스트 굵게 설정 */
+    margin-left: 2px; /* 좌측 여백 추가 */
+    color: #000; /* 텍스트를 검정색으로 설정 */
+  }
+  
 }
 
 .content-container {
   flex-grow: 1;
   overflow-y: auto; /* 전체 콘텐츠 컨테이너의 오버플로우를 스크롤로 처리합니다. */
+  
 }
 
 .welcome-box {
@@ -97,6 +121,7 @@
   border-top: 1px solid #ccc;
   padding: 10px 0;
   flex-shrink: 0;
+  margin-left: 5px; /* 좌측 여백 5px 추가 */
 }
 
 .chat-input {
@@ -114,8 +139,14 @@
   background-color: #007bff;
   color: white;
   cursor: pointer;
+  margin-right: 5px; /* send-button을 2px 좌측으로 이동 */
+  margin-top: 4px; /* 버튼을 약간 아래로 이동하여 중간 지점 맞춤 */
 }
+
+
 
 .send-button:hover {
   background-color: #0056b3;
 }
+
+
