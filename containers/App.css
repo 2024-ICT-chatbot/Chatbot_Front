@@ -1,0 +1,152 @@
+.chatbot-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f0f0f0;
+  overflow: hidden; /* 전체 페이지의 오버플로우를 숨깁니다. */
+}
+
+.chatbot {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  border: 1px solid #cccccc;
+  border-radius: 10px;
+  padding: 0px;
+  background-color: #ffffff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  height: 90vh;
+  .header-text-container {
+    width: calc(100%); /* 부모의 너비에 추가 여백을 더하여 전체 화면을 덮도록 설정 */
+    text-align: left; /* 텍스트를 좌측 정렬 */
+    padding: 5px 10px; /* 상하 및 좌우 간격 추가 */
+    background-color: #87b3d5b8; /* 배경색 설정 */
+    position: relative; /* 요소를 상대적으로 배치 */
+    
+    box-sizing: border-box; /* 패딩과 보더를 너비에 포함 */
+  }
+  .parent-container {
+    
+    margin-left: 0;
+    padding-left: 0;
+  }
+  
+  
+  .header-text {
+    font-size: 14px; /* 텍스트 크기 설정 */
+    font-weight: bold; /* 텍스트 굵게 설정 */
+    margin-left: 2px; /* 좌측 여백 추가 */
+    color: #000; /* 텍스트를 검정색으로 설정 */
+  }
+  
+}
+
+.content-container {
+  flex-grow: 1;
+  overflow-y: auto; /* 전체 콘텐츠 컨테이너의 오버플로우를 스크롤로 처리합니다. */
+  
+}
+
+.welcome-box {
+  border: 1px solid #007bff;
+  border-radius: 10px;
+  padding: 20px;
+  background-color: #e6f7ff;
+  margin-bottom: 20px;
+  flex-shrink: 0;
+}
+
+.welcome-message {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.bot-image {
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+}
+
+.bot-name {
+  font-weight: bold;
+  font-size: 12px;
+  /* 글자 크기 및 스타일 추가 */
+  color: #333;
+}
+
+.bot-message {
+  margin-top: 5px;
+}
+
+.buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.buttons button {
+  padding: 10px;
+  flex: 1 1 calc(50% - 10px);  /* 두 개의 버튼이 한 줄에 들어가도록 설정 */
+  border: 1px solid #007bff;
+  border-radius: 5px;
+  background-color: white;
+  color: #007bff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 16px;
+  font-weight: bold;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.buttons button:hover {
+  background-color: #007bff;
+  color: white;
+}
+
+.messages {
+  flex-grow: 1;
+  margin-bottom: 10px;
+  padding-right: 10px; /* 스크롤바가 메시지 텍스트를 가리지 않도록 패딩 추가 */
+}
+
+.input-area {
+  display: flex;
+  border-top: 1px solid #ccc;
+  padding: 10px 0;
+  flex-shrink: 0;
+  margin-left: 5px; /* 좌측 여백 5px 추가 */
+}
+
+.chat-input {
+  flex-grow: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-right: 10px;
+}
+
+.send-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  margin-right: 5px; /* send-button을 2px 좌측으로 이동 */
+  margin-top: 4px; /* 버튼을 약간 아래로 이동하여 중간 지점 맞춤 */
+}
+
+
+
+.send-button:hover {
+  background-color: #0056b3;
+}
+
+
