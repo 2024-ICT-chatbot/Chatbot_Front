@@ -4,7 +4,7 @@ import '../containers/App.css';
 import axios from 'axios';
 
 // getBotResponse 함수 정의
-export const getBotResponse = async (message) => {
+const getBotResponse = async (message) => {
   try {
     const response = await axios.post('http://localhost:8000/chat', { message });
     return response.data.response;
@@ -18,7 +18,6 @@ const App = () => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
 
-  // 페이지 로드 시 웰컴 메시지 추가
   useEffect(() => {
     const welcomeMessage = {
       type: 'bot',
@@ -29,34 +28,88 @@ const App = () => {
     setMessages([welcomeMessage]);
   }, []);
 
-  // 버튼 클릭 시 발생하는 이벤트 처리
-  const handleButtonClick = (infoType) => {
-    let info = '';
-    switch (infoType) {
-      case 'facility':
-        info = '시설 예약: 시설 예약 정보입니다.';
-        break;
-      case 'cargo':
-        info = '화물입·출항 신고 수리: 화물입·출항 신고 수리 정보입니다.';
-        break;
-      case 'repair':
-        info = '수리 요청: 수리 요청 정보입니다.';
-        break;
-      case 'payment':
-        info = '요금 결제: 요금 결제 정보입니다.';
-        break;
-      case 'consult':
-        info = '상담 접수: 상담 접수 정보입니다.';
-        break;
-      default:
-        info = '';
+  const handleButtonClick = async (infoType) => {
+    let newMessages = [];
+
+    if (infoType === '이전으로') {
+      newMessages = [...messages.slice(0, -1)];
+      setMessages(newMessages);
+      return;
     }
 
-    const newMessages = [...messages, { type: 'bot', text: info, timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }) }];
+    if (['항만 입/출항 신고 절차', '화물 입/출항 신고 절차', '사용료 안내', '요금 결제 방법 안내', '여객 운항 정보', '유실물 센터', '수리 요청/시설물 유지보수 신고', '방문 예약', '채용 정보', '빅데이터 분석 시스템', '체인포털', '공모 서비스'].includes(infoType)) {
+      try {
+        const response = await axios.post('http://localhost:8000/api/endpoint', { infoType });
+
+        const botResponse = response.data;
+        newMessages = [
+          ...messages,
+          {
+            type: 'bot',
+            text: botResponse.message,
+            timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }),
+            options: botResponse.options || [],
+          },
+        ];
+      } catch (error) {
+        console.error('Error fetching data from backend:', error);
+
+        newMessages = [
+          ...messages,
+          {
+            type: 'bot',
+            text: '오류가 발생했습니다. 다시 시도해주세요.',
+            timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }),
+          },
+        ];
+      }
+    } else {
+      if (infoType === 'cargo') {
+        newMessages = [
+          ...messages,
+          {
+            type: 'bot',
+            text: '입출항 신고를 선택하셨습니다. 다음 작업을 선택해주세요.',
+            timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }),
+            options: ['항만 입/출항 신고 절차', '화물 입/출항 신고 절차'],
+          },
+        ];
+      } else if (infoType === 'payment') {
+        newMessages = [
+          ...messages,
+          {
+            type: 'bot',
+            text: '요금 결제를 선택하셨습니다. 다음 작업을 선택해주세요.',
+            timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }),
+            options: ['사용료 안내', '요금 결제 방법 안내'],
+          },
+        ];
+      } else if (infoType === 'support') {
+        newMessages = [
+          ...messages,
+          {
+            type: 'bot',
+            text: '고객 지원을 선택하셨습니다. 다음 작업을 선택해주세요.',
+            timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }),
+            options: ['여객 운항 정보', '유실물 센터', '수리 요청/시설물 유지보수 신고', '방문 예약'],
+          },
+        ];
+      } else if (infoType === 'info') {
+        newMessages = [
+          ...messages,
+          {
+            type: 'bot',
+            text: '기타 정보를 선택하셨습니다. 다음 작업을 선택해주세요.',
+            timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }),
+            options: ['채용 정보', '빅데이터 분석 시스템', '체인포털', '공모 서비스'],
+          },
+        ];
+      }
+    }
+
     setMessages(newMessages);
   };
 
-  // 메시지 전송 처리
   const handleSend = async () => {
     if (input.trim() !== '') {
       const userMessage = {
@@ -67,17 +120,26 @@ const App = () => {
       setMessages([...messages, userMessage]);
       setInput('');
 
-      const botResponse = await getBotResponse(input);
-      const botMessage = {
-        type: 'bot',
-        text: botResponse,
-        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }),
-      };
-      setMessages((prevMessages) => [...prevMessages, botMessage]);
+      try {
+        const botResponse = await getBotResponse(input);
+        const botMessage = {
+          type: 'bot',
+          text: botResponse,
+          timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }),
+        };
+        setMessages((prevMessages) => [...prevMessages, botMessage]);
+      } catch (error) {
+        console.error('Error fetching bot response:', error);
+        const errorMessage = {
+          type: 'bot',
+          text: '오류가 발생했습니다. 다시 시도해주세요.',
+          timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }),
+        };
+        setMessages((prevMessages) => [...prevMessages, errorMessage]);
+      }
     }
   };
 
-  // Enter 키 입력 시 메시지 전송
   const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
       handleSend();
@@ -87,11 +149,10 @@ const App = () => {
   return (
     <div className="chatbot-container">
       <div className="chatbot">
-        {/* 헤더를 최상단에 고정 */}
         <div className="header-text-container">
           <p className="header-text">항만공사 챗봇</p>
         </div>
-        
+
         <div className="content-container">
           <div className="messages">
             {messages.map((msg, index) => (
