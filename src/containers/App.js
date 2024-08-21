@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ChatMessage from '../components/ChatMessage';
 import '../containers/App.css';
+import sendimage from '../assets/images/전송.png';
 import axios from 'axios';
 
 // getBotResponse 함수 정의
@@ -169,7 +170,9 @@ const App = () => {
             onChange={(e) => setInput(e.target.value)}
             onKeyPress={handleKeyPress}
           />
-          <button onClick={handleSend} className="send-button">전송</button>
+          <button onClick={handleSend} className="send-button">
+            <img src={sendimage} alt="전송" style={{ width: '22px', height: '18px', position: 'relative', top: '-4px' }} />
+          </button>
         </div>
       </div>
     </div>
