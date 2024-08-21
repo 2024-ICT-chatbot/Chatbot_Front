@@ -1,6 +1,10 @@
 import React, { useEffect, useRef } from 'react';
 import './ChatMessage.css';
 import botCharacter from '../assets/images/bot_character.png';
+import harborImage from '../assets/images/항만.png';
+import imformation from '../assets/images/기타정보.png';  // 추가된 이미지 import
+import fee from '../assets/images/요금결제.png';        // 추가된 이미지 import
+import support from '../assets/images/고객지원.png';    // 추가된 이미지 import
 
 const ChatMessage = ({ message, handleButtonClick }) => {
     const isUser = message.type === 'user';
@@ -28,12 +32,32 @@ const ChatMessage = ({ message, handleButtonClick }) => {
                     </div>
                     <div className="buttons-outside">
                         <div className="buttons-row">
-                            <button onClick={() => handleButtonClick('cargo')} className="wide-button">입/출항 신고</button>
-                            <button onClick={() => handleButtonClick('payment')} className="wide-button">요금 결제</button>
+                            <button onClick={() => handleButtonClick('cargo')} className="wide-button">
+                                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                                    <img src={harborImage} alt="항만" style={{ width: '40px', height: '40px', marginBottom: '8px' }} />
+                                    <div>입/출항 신고</div>
+                                </div>
+                            </button>
+                            <button onClick={() => handleButtonClick('payment')} className="wide-button">
+                                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                                    <img src={fee} alt="요금결제" style={{ width: '40px', height: '40px', marginBottom: '8px' }} />
+                                    <div>요금 결제</div>
+                                </div>
+                            </button>
                         </div>
                         <div className="buttons-row">
-                            <button onClick={() => handleButtonClick('support')}>고객 지원</button>
-                            <button onClick={() => handleButtonClick('info')}>기타 정보/서비스</button>
+                            <button onClick={() => handleButtonClick('support')} className="wide-button">
+                                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                                    <img src={support} alt="고객지원" style={{ width: '40px', height: '40px', marginBottom: '8px' }} />
+                                    <div>고객 지원</div>
+                                </div>
+                            </button>
+                            <button onClick={() => handleButtonClick('info')} className="wide-button">
+                                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                                    <img src={imformation} alt="기타정보" style={{ width: '40px', height: '40px', marginBottom: '8px' }} />
+                                    <div>기타 정보/서비스</div>
+                                </div>
+                            </button>
                         </div>
                     </div>
                     <div ref={chatEndRef} />
