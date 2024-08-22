@@ -1,24 +1,13 @@
+// App.js에서 수정을 확인할 부분
 import React, { useState, useEffect } from 'react';
 import ChatMessage from '../components/ChatMessage';
 import '../containers/App.css';
 import axios from 'axios';
 
-// getBotResponse 함수 정의
-export const getBotResponse = async (message) => {
-  try {
-    const response = await axios.post('http://localhost:8000/chat', { message });
-    return response.data.response;
-  } catch (error) {
-    console.error('Error fetching bot response:', error);
-    return '오류가 발생했습니다. 다시 시도해주세요.';
-  }
-};
-
 const App = () => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
 
-  // 페이지 로드 시 웰컴 메시지 추가
   useEffect(() => {
     const welcomeMessage = {
       type: 'bot',
@@ -29,34 +18,47 @@ const App = () => {
     setMessages([welcomeMessage]);
   }, []);
 
-  // 버튼 클릭 시 발생하는 이벤트 처리
-  const handleButtonClick = (infoType) => {
-    let info = '';
-    switch (infoType) {
-      case 'facility':
-        info = '시설 예약: 시설 예약 정보입니다.';
-        break;
-      case 'cargo':
-        info = '화물입·출항 신고 수리: 화물입·출항 신고 수리 정보입니다.';
-        break;
-      case 'repair':
-        info = '수리 요청: 수리 요청 정보입니다.';
-        break;
-      case 'payment':
-        info = '요금 결제: 요금 결제 정보입니다.';
-        break;
-      case 'consult':
-        info = '상담 접수: 상담 접수 정보입니다.';
-        break;
-      default:
-        info = '';
-    }
+  const handleButtonClick = async (infoType) => {
+    let newMessages = [...messages];
 
-    const newMessages = [...messages, { type: 'bot', text: info, timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }) }];
-    setMessages(newMessages);
+    if (infoType === 'cargo' || infoType === 'payment') {
+      const options = {
+        type: 'bot',
+        text: infoType === 'cargo' ? '입출항 신고를 선택하셨습니다.' : '요금 결제를 선택하셨습니다.',
+        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }),
+        options: infoType === 'cargo' ? [
+          { id: 4, text: '항만 입/출항 신고 절차' },
+          { id: 5, text: '화물 입/출항 신고 절차' }
+        ] : [
+          { id: 1, text: '사용료 안내' },
+          { id: 2, text: '요금 결제 방법 안내' }
+        ],
+      };
+      newMessages.push(options);
+      setMessages(newMessages);
+    } else {
+      try {
+        const response = await axios.get(`http://localhost:8000/get-button-response/${infoType}`);
+        const botMessage = {
+          type: 'bot',
+          text: response.data.response,
+          timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }),
+        };
+        newMessages.push(botMessage);
+        setMessages(newMessages);
+      } catch (error) {
+        console.error('Error fetching data from backend:', error);
+        const errorMessage = {
+          type: 'bot',
+          text: '오류가 발생했습니다. 다시 시도해주세요.',
+          timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }),
+        };
+        newMessages.push(errorMessage);
+        setMessages(newMessages);
+      }
+    }
   };
 
-  // 메시지 전송 처리
   const handleSend = async () => {
     if (input.trim() !== '') {
       const userMessage = {
@@ -67,17 +69,26 @@ const App = () => {
       setMessages([...messages, userMessage]);
       setInput('');
 
-      const botResponse = await getBotResponse(input);
-      const botMessage = {
-        type: 'bot',
-        text: botResponse,
-        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }),
-      };
-      setMessages((prevMessages) => [...prevMessages, botMessage]);
+      try {
+        const botResponse = await axios.post('http://localhost:8000/api/v1/chat', { message: input });
+        const botMessage = {
+          type: 'bot',
+          text: botResponse.data.answer,  // response가 아닌 answer를 사용
+          timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }),
+        };
+        setMessages((prevMessages) => [...prevMessages, botMessage]);
+      } catch (error) {
+        console.error('Error fetching bot response:', error);
+        const errorMessage = {
+          type: 'bot',
+          text: '오류가 발생했습니다. 다시 시도해주세요.',
+          timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }),
+        };
+        setMessages((prevMessages) => [...prevMessages, errorMessage]);
+      }
     }
   };
 
-  // Enter 키 입력 시 메시지 전송
   const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
       handleSend();
@@ -87,11 +98,9 @@ const App = () => {
   return (
     <div className="chatbot-container">
       <div className="chatbot">
-        {/* 헤더를 최상단에 고정 */}
         <div className="header-text-container">
           <p className="header-text">항만공사 챗봇</p>
         </div>
-        
         <div className="content-container">
           <div className="messages">
             {messages.map((msg, index) => (

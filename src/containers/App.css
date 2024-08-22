@@ -11,10 +11,10 @@
   width: 100%;
   max-width: 400px;
   margin: 0 auto;
-  border: 1px solid #ccc;
+  border: 1px solid #cccccc;
   border-radius: 10px;
   padding: 0px;
-  background-color: #fff;
+  background-color: #ffffff;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
@@ -29,6 +29,7 @@
     box-sizing: border-box; /* 패딩과 보더를 너비에 포함 */
   }
   .parent-container {
+    
     margin-left: 0;
     padding-left: 0;
   }
@@ -46,6 +47,7 @@
 .content-container {
   flex-grow: 1;
   overflow-y: auto; /* 전체 콘텐츠 컨테이너의 오버플로우를 스크롤로 처리합니다. */
+  
 }
 
 .welcome-box {
@@ -119,6 +121,7 @@
   border-top: 1px solid #ccc;
   padding: 10px 0;
   flex-shrink: 0;
+  margin-left: 5px; /* 좌측 여백 5px 추가 */
 }
 
 .chat-input {
@@ -136,11 +139,12 @@
   background-color: #007bff;
   color: white;
   cursor: pointer;
-  
+  margin-right: 5px; /* send-button을 2px 좌측으로 이동 */
+  margin-top: 4px; /* 버튼을 약간 아래로 이동하여 중간 지점 맞춤 */
 }
+
+
 
 .send-button:hover {
   background-color: #0056b3;
 }
-
-
