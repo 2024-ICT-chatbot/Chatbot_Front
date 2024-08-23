@@ -28,16 +28,6 @@
     text-align: left;
 }
 
-.message-bubble {
-    max-width: 80%; /* 텍스트 박스의 최대 너비를 설정 */
-    padding: 10px;
-    border-radius: 15px;
-    font-size: 14px;
-    line-height: 1.4;
-    background-color: #e0f7fa; /* 챗봇 메시지 배경색 */
-    word-wrap: break-word; /* 긴 단어를 자동으로 줄바꿈 */
-    overflow-wrap: break-word; /* 추가로 줄바꿈을 강제 */
-}
 .spacing {
     height: 10px; /* 메시지와 버튼 사이의 간격 설정 */
 }
@@ -214,7 +204,6 @@ button:hover {
     background-color: #007bff;
     color: white;
 }
-
 
 .additional-options .option-button {
     width: 232px; /* 버튼이 전체 가로 길이를 차지하도록 설정 */
