@@ -1,8 +1,8 @@
-  import React, { useState, useEffect } from 'react';
-  import ChatMessage from '../components/ChatMessage';
-  import '../containers/App.css';
-  import sendimage from '../assets/images/전송.png';
-  import axios from 'axios';
+import React, { useState, useEffect } from 'react';
+import ChatMessage from '../components/ChatMessage';
+import '../containers/App.css';
+import sendimage from '../assets/images/전송.png';
+import axios from 'axios';
 
 const App = () => {
   const [messages, setMessages] = useState([]);
@@ -99,37 +99,8 @@ const App = () => {
         ];
       }
     }
-    return (
-      <div className="chatbot-container">
-        <div className="chatbot">
-          <div className="header-text-container">
-            <p className="header-text">항만공사 챗봇</p>
-          </div>
-          <div className="content-container">
-            <div className="messages">
-              {messages.map((msg, index) => (
-                <ChatMessage key={index} message={msg} handleButtonClick={handleButtonClick} />
-              ))}
-            </div>
-          </div>
-          <div className="input-area">
-            <input
-              type="text"
-              placeholder="내용을 입력하세요"
-              className="chat-input"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyPress={handleKeyPress}
-            />
-            <button onClick={handleSend} className="send-button">
-  <img src={sendimage} alt="전송" style={{ width: '24px', height: '22px', position: 'relative', top: '-6px' }} />
-</button>
 
-
-          </div>
-        </div>
-      </div>
-    );
+    setMessages(newMessages);
   };
 
   const handleSend = async () => {
