@@ -1,6 +1,7 @@
   import React, { useState, useEffect } from 'react';
   import ChatMessage from '../components/ChatMessage';
   import '../containers/App.css';
+  import sendimage from '../assets/images/전송.png';
   import axios from 'axios';
 
   const App = () => {
@@ -157,7 +158,11 @@
               onChange={(e) => setInput(e.target.value)}
               onKeyPress={handleKeyPress}
             />
-            <button onClick={handleSend} className="send-button">전송</button>
+            <button onClick={handleSend} className="send-button">
+  <img src={sendimage} alt="전송" style={{ width: '24px', height: '22px', position: 'relative', top: '-6px' }} />
+</button>
+
+
           </div>
         </div>
       </div>
