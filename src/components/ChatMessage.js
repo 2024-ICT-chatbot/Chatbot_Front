@@ -7,6 +7,16 @@ import fee from '../assets/images/요금결제.png';
 import support from '../assets/images/고객지원.png';
 import serviceIntro from '../assets/images/service_intro.png';
 
+// 줄바꿈 문자를 <br>로 변환하는 함수
+const convertTextWithLineBreaks = (text) => {
+    return text.split('\n').map((part, index) => (
+        <React.Fragment key={index}>
+            {part}
+            <br />
+        </React.Fragment>
+    ));
+};
+
 // URL을 감지하고 링크로 변환하는 함수
 const convertTextToLinks = (text) => {
     const urlPattern = /(https?:\/\/[^\s]+)/g;
@@ -18,11 +28,10 @@ const convertTextToLinks = (text) => {
                 </a>
             );
         } else {
-            return part;
+            return convertTextWithLineBreaks(part); // 줄바꿈 변환 적용
         }
     });
 };
-
 const ChatMessage = ({ message, handleButtonClick }) => {
     const isUser = message.type === 'user';
     const chatEndRef = useRef(null);
