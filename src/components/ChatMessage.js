@@ -31,6 +31,7 @@ const convertTextToLinks = (text) => {
         }
     });
 };
+
 const ChatMessage = ({ message, handleButtonClick }) => {
     const isUser = message.type === 'user';
     const chatEndRef = useRef(null);
@@ -96,10 +97,14 @@ const ChatMessage = ({ message, handleButtonClick }) => {
                             </div>
                             <div className="message-container bot">
                                 <div className="message-bubble">
-                                    {Array.isArray(message.text) ? (
-                                        message.text.map((line, index) => <p key={index}>{convertTextToLinks(line)}</p>)
+                                    {message.isIframe ? (
+                                        <div dangerouslySetInnerHTML={{ __html: message.text }} />
                                     ) : (
-                                        convertTextToLinks(message.text)
+                                        Array.isArray(message.text) ? (
+                                            message.text.map((line, index) => <p key={index}>{convertTextToLinks(line)}</p>)
+                                        ) : (
+                                            convertTextToLinks(message.text)
+                                        )
                                     )}
                                 </div>
                                 <div className="timestamp bot-timestamp">{message.timestamp}</div>
