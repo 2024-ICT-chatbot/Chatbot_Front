@@ -23,9 +23,10 @@
 
       // 정해진 옵션 리스트에 따라 API 호출
       if ([
-        '항만 입/출항 신고 절차', '화물 입/출항 신고 절차', '사용료 안내', '요금 결제 방법 안내',
-        '여객 운항 정보', '유실물 센터', '수리 요청/시설물 유지보수 신고', '방문 예약',
-        '채용 정보', '빅데이터 분석 시스템', '체인포털', '공모 서비스'
+        '외항선 입출항 수속 절차', '내항선 입출항 수속 절차', 'PORT-MIS 교육자료', '선박료', '화물료', '항만시설 전용사용료', 
+        '항만시설 보안료', '임대료', 
+        '기타정보', '울산항만공사 선석운영지원시스템', '울산항 데이터통합플랫폼 PortWise', '방문 예약', '선박입·출항신고 수리', 
+        '선석운영 협의회 운영', '항만시설 사용실적 관리', '화물료 고지', '항만시설 사용신청 및 승낙', '채용 정보', '대국민 공모 신청'
       ].includes(infoType)) {
         try {
           const response = await axios.post('http://localhost:8000/api/v1/get-info', { infoType });
@@ -59,9 +60,9 @@
             ...messages,
             {
               type: 'bot',
-              text: '입출항 신고를 선택하셨습니다. 다음 작업을 선택해주세요.',
+              text: '항만 입출항 신고를 선택하셨습니다. 다음 작업을 선택해주세요.',
               timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }),
-              options: ['항만 입/출항 신고 절차', '화물 입/출항 신고 절차'],
+              options: ['외항선 입출항 수속 절차', '내항선 입출항 수속 절차', 'PORT-MIS 교육자료'],
             },
           ];
         } else if (infoType === 'payment') {
@@ -69,29 +70,50 @@
             ...messages,
             {
               type: 'bot',
-              text: '요금 결제를 선택하셨습니다. 다음 작업을 선택해주세요.',
+              text: '항만시설사용료를 선택하셨습니다. 다음 작업을 선택해주세요.',
               timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }),
-              options: ['사용료 안내', '요금 결제 방법 안내'],
+              options: ['항만시설사용료의 종류 및 징수대상시설', '기타정보'],
             },
           ];
-        } else if (infoType === 'support') {
+        } else if (infoType === '항만시설사용료의 종류 및 징수대상시설') {
+          newMessages = [
+            ...messages,
+            {
+              type: 'bot',
+              text: '항만시설사용료의 종류 및 징수대상시설에 대해 알아보겠습니다. 세부 항목을 선택해주세요.',
+              timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }),
+              options: ['선박료', '화물료', '항만시설 전용사용료', '항만시설 보안료', '임대료'],
+            },
+          ];
+        }
+        else if (infoType === 'support') {
           newMessages = [
             ...messages,
             {
               type: 'bot',
               text: '고객 지원을 선택하셨습니다. 다음 작업을 선택해주세요.',
               timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }),
-              options: ['여객 운항 정보', '유실물 센터', '수리 요청/시설물 유지보수 신고', '방문 예약'],
+              options: ['울산항만공사 선석운영지원시스템', '울산항 데이터통합플랫폼 PortWise', '방문 예약'],
             },
           ];
-        } else if (infoType === 'info') {
+        } else if (infoType === 'service_intro') {
+          newMessages = [
+            ...messages,
+            {
+              type: 'bot',
+              text: '서비스 소개를 선택하셨습니다. 다음 작업을 선택해주세요.',
+              timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }),
+              options: ['선박입·출항신고 수리', '선석운영 협의회 운영', '항만시설 사용실적 관리', '화물료 고지', '항만시설 사용신청 및 승낙'],
+            },
+          ];
+        }else if (infoType === 'info') {
           newMessages = [
             ...messages,
             {
               type: 'bot',
               text: '기타 정보를 선택하셨습니다. 다음 작업을 선택해주세요.',
               timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }),
-              options: ['채용 정보', '빅데이터 분석 시스템', '체인포털', '공모 서비스'],
+              options: ['채용 정보', '대국민 공모 신청'],
             },
           ];
         }
