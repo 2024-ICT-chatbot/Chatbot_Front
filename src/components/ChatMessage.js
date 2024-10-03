@@ -5,6 +5,7 @@ import harborImage from '../assets/images/항만.png';
 import imformation from '../assets/images/기타정보.png';
 import fee from '../assets/images/요금결제.png';
 import support from '../assets/images/고객지원.png';
+import serviceIntro from '../assets/images/service_intro.png';
 
 // 줄바꿈 문자를 <br>로 변환하는 함수
 const convertTextWithLineBreaks = (text) => {
@@ -60,27 +61,33 @@ const ChatMessage = ({ message, handleButtonClick }) => {
                             <button onClick={() => handleButtonClick('cargo')} className="wide-button">
                                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                                     <img src={harborImage} alt="항만" style={{ width: '40px', height: '40px', marginBottom: '8px' }} />
-                                    <div>입/출항 신고</div>
+                                    <div>항만 입/출항 신고</div>
                                 </div>
                             </button>
                             <button onClick={() => handleButtonClick('payment')} className="wide-button">
                                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                                     <img src={fee} alt="요금결제" style={{ width: '40px', height: '40px', marginBottom: '8px' }} />
-                                    <div>요금 결제</div>
+                                    <div>항만시설사용료</div>
                                 </div>
                             </button>
-                        </div>
-                        <div className="buttons-row">
                             <button onClick={() => handleButtonClick('support')} className="wide-button">
                                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                                     <img src={support} alt="고객지원" style={{ width: '40px', height: '40px', marginBottom: '8px' }} />
                                     <div>고객 지원</div>
                                 </div>
                             </button>
+                        </div>
+                        <div className="buttons-row">
                             <button onClick={() => handleButtonClick('info')} className="wide-button">
                                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                                     <img src={imformation} alt="기타정보" style={{ width: '40px', height: '40px', marginBottom: '8px' }} />
-                                    <div>기타 정보/서비스</div>
+                                    <div>기타 정보</div>
+                                </div>
+                            </button>
+                            <button onClick={() => handleButtonClick('service_intro')} className="wide-button">
+                                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                                    <img src={serviceIntro} alt="서비스 소개" style={{ width: '40px', height: '40px', marginBottom: '8px' }} />
+                                    <div>서비스 소개</div>
                                 </div>
                             </button>
                         </div>
