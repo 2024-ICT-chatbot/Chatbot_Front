@@ -155,7 +155,11 @@ button:hover {
 }
 
 .buttons-row:first-child {
-    margin-bottom: 5px; /* 첫 번째 줄과 두 번째 줄 사이의 간격을 매우 작게 설정 */
+    margin-bottom: 0px; /* 첫 번째 줄과 두 번째 줄 사이의 간격을 매우 작게 설정 */
+}
+
+.buttons-row:last-child {
+    margin-top: 0px; /* 마지막 줄(새로운 버튼을 위한 줄)에 상단 여백 추가 */
 }
 
 .wide-button {
@@ -181,7 +185,7 @@ button:hover {
 .buttons-row button {
     flex: 1;
     padding: 0; /* 버튼 내부의 여백 제거 */
-    font-size: 12px; /* 폰트 크기 설정을 줄임 */
+    font-size: 11px; /* 폰트 크기 설정을 줄임 */
     border: 1px solid #007bff;
     border-radius: 10px; /* 버튼 모서리를 둥글게 설정 */
     background-color: white; /* 원래 배경색 */
