@@ -17,47 +17,28 @@ const convertTextWithLineBreaks = (text) => {
   ));
 };
 
-// URL을 감지하고 링크로 변환하는 함수
+
 const convertTextToLinks = (text) => {
-  const urlPattern = /(https?:\/\/[^\s]+)/g;
-  return text.split(urlPattern).map((part, index) => {
-    if (urlPattern.test(part)) {
-      // 만약 링크가 특정 URL이라면, 리다이렉트 경로 설정
-      if (part === "https://port.com/contest-entry") {
+
+    if (typeof text !== 'string') {
+      return <>{text}</>; // JSX로 감싸서 반환
+    }
+    const urlPattern = /(https?:\/\/[^\s]+)/g;
+    return text.split(urlPattern).map((part, index) => {
+      if (urlPattern.test(part)) {
         return (
-          <a
-            key={index}
-            href="#"
-            onClick={(e) => {
-              e.preventDefault(); // 기본 링크 이동을 방지
-              window.location.href = "http://localhost:8000/contest-entry"; // 로컬 서버의 index.html로 이동
-            }}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="chat-link"
-          >
+          <a key={index} href={part} target="_blank" rel="noopener noreferrer" className="chat-link">
             {part}
           </a>
         );
       } else {
-        // 일반적인 링크 처리
-        return (
-          <a
-            key={index}
-            href={part}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="chat-link"
-          >
-            {part}
-          </a>
-        );
+
+        return convertTextWithLineBreaks(part);
       }
-    } else {
-      return convertTextWithLineBreaks(part);
-    }
-  });
-};
+    });
+  };
+  
+  
 
 const ChatMessage = ({ message, handleButtonClick }) => {
   const isUser = message.type === "user";
@@ -67,6 +48,7 @@ const ChatMessage = ({ message, handleButtonClick }) => {
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [message]);
+
 
   return (
     <div className="chat-message-container">
@@ -109,6 +91,7 @@ const ChatMessage = ({ message, handleButtonClick }) => {
                     }}
                   />
                   <div>항만 입/출항 신고</div>
+
                 </div>
               </button>
               <button

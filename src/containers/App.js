@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from "react";
-import ChatMessage from "../components/ChatMessage";
-import "../containers/App.css";
-import sendimage from "../assets/images/전송.png";
-import axios from "axios";
+import React, { useState, useEffect } from 'react';
+import ChatMessage from '../components/ChatMessage';
+import '../containers/App.css';
+import sendimage from '../assets/images/전송.png';
+import DynamicForm from '../containers/DynamicForm';
+import axios from 'axios';
+
 
 const App = () => {
   const [messages, setMessages] = useState([]);
@@ -25,35 +27,25 @@ const App = () => {
   const handleButtonClick = async (infoType) => {
     let newMessages = [...messages];
 
-    // 정해진 옵션 리스트에 따라 API 호출
-    if (
-      [
-        "외항선 입출항 수속 절차",
-        "내항선 입출항 수속 절차",
-        "PORT-MIS 교육자료",
-        "선박료",
-        "화물료",
-        "항만시설 전용사용료",
-        "항만시설 보안료",
-        "임대료",
-        "사용료 기타정보",
-        "울산항만공사 선석운영지원시스템",
-        "울산항 데이터통합플랫폼 PortWise",
-        "방문 예약",
-        "선박입·출항신고 수리",
-        "선석운영 협의회 운영",
-        "항만시설 사용실적 관리",
-        "화물료 고지",
-        "항만시설 사용신청 및 승낙",
-        "채용 정보",
-        "대국민 공모 신청",
-      ].includes(infoType)
-    ) {
-      try {
-        const response = await axios.post(
-          "http://localhost:8000/api/v1/get-info",
-          null,
+      // 정해진 옵션 리스트에 따라 API 호출
+      if (infoType === '방문 예약') {
+        // 방문 예약 클릭 시 DynamicForm 컴포넌트 표시
+        newMessages = [
+          ...messages,
           {
+            type: 'bot',
+            text: <DynamicForm formId="1" />, // formId에 실제 폼 ID로 대체해주세요
+            timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }),
+          },
+        ];
+      } else if ([
+        '외항선 입출항 수속 절차', '내항선 입출항 수속 절차', 'PORT-MIS 교육자료', '선박료', '화물료', '항만시설 전용사용료', 
+        '항만시설 보안료', '임대료', 
+        '사용료 기타정보', '울산항만공사 선석운영지원시스템', '울산항 데이터통합플랫폼 PortWise', '방문 예약', '선박입·출항신고 수리', 
+        '선석운영 협의회 운영', '항만시설 사용실적 관리', '화물료 고지', '항만시설 사용신청 및 승낙', '채용 정보', '대국민 공모 신청'
+      ].includes(infoType)) {
+        try {
+          const response = await axios.post('http://localhost:8000/api/v1/get-info', null, {
             params: {
               button_name: infoType,
             },
@@ -90,6 +82,7 @@ const App = () => {
           },
         ];
       }
+
     } else {
       // 기본적인 옵션을 처리하는 부분
       if (infoType === "cargo") {
@@ -199,26 +192,92 @@ const App = () => {
             options: ["채용 정보", "대국민 공모 신청"],
           },
         ];
-      } else if (infoType === "방문 예약") {
-        // '방문 예약' 클릭 시 index.html로 이동하는 메시지를 추가합니다.
-        newMessages = [
-          ...messages,
-          {
-            type: "bot",
-            text: "대국민 공모서비스에 접수하기 위해서는 아래 사이트에 접속해 접수해주기바랍니다.",
-            timestamp: new Date().toLocaleTimeString([], {
-              hour: "2-digit",
-              minute: "2-digit",
-              hour12: false,
-            }),
-            options: [],
-            link: "https://port.com/contest-entry", // /contest-entry로 설정
-          },
-        ];
+      }
+      setMessages(newMessages);
+    };
+
+    const handleSend = async () => {
+      if (input.trim() !== '') {
+        const userMessage = {
+          type: 'user',
+          text: input,
+          timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }),
+        };
+        setMessages([...messages, userMessage]);
+        setInput('');
+  
+        // 키워드 확인
+        const lowercaseInput = input.toLowerCase();
+        if (lowercaseInput.includes('방문예약') || lowercaseInput.includes('출입증 등록')) {
+          const formMessage = {
+            type: 'bot',
+            text: <DynamicForm formId="1" />,
+            timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }),
+          };
+          setMessages((prevMessages) => [...prevMessages, formMessage]);
+        } else {
+          try {
+            const botResponse = await axios.post('http://localhost:8000/api/v1/chat', { message: input });
+            const botMessage = {
+              type: 'bot',
+              text: botResponse.data.answer,
+              timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }),
+            };
+            setMessages((prevMessages) => [...prevMessages, botMessage]);
+          } catch (error) {
+            console.error('Error fetching bot response:', error);
+            const errorMessage = {
+              type: 'bot',
+              text: '오류가 발생했습니다. 다시 시도해주세요.',
+              timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }),
+            };
+            setMessages((prevMessages) => [...prevMessages, errorMessage]);
+          }
+        }
       }
     }
 
-    setMessages(newMessages);
+
+    const handleKeyPress = (e) => {
+      if (e.key === 'Enter') {
+        handleSend();
+
+      }
+    };
+
+    return (
+      <div className="chatbot-container">
+        <div className="chatbot">
+          <div className="header-text-container">
+            <p className="header-text">항만공사 챗봇</p>
+          </div>
+          <div className="content-container">
+            <div className="messages">
+              {messages.map((msg, index) => (
+                <ChatMessage key={index} message={msg} handleButtonClick={handleButtonClick} />
+              ))}
+            </div>
+          </div>
+          <div className="input-area">
+            <input
+              type="text"
+              placeholder="내용을 입력하세요"
+              className="chat-input"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyPress={handleKeyPress}
+            />
+            <button onClick={handleSend} className="send-button">
+  <img src={sendimage} alt="전송" style={{ width: '24px', height: '22px', position: 'relative', top: '-6px' }} />
+</button>
+
+
+
+          </div>
+        </div>
+
+      </div>
+    );
   };
 
   const handleSend = async () => {
